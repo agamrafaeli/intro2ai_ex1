@@ -9,6 +9,7 @@
 """
 In search.py, you will implement generic search algorithms which are called 
 by Pacman agents (in searchAgents.py)
+AGAM
 """
 
 import util
