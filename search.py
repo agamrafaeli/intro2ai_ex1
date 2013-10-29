@@ -88,7 +88,7 @@ def depthFirstSearch(problem):
     result = 'BAD'
     
     for step in problem.getSuccessors(start):
-        (result,beenThere,theStack) = pathStep(problem, beenThere, path, step, 0)
+        (result,beenThere,theStack) = dfsPathStep(problem, beenThere, path, step)
         if result == "VICTORY":
             break
         
@@ -100,7 +100,7 @@ def depthFirstSearch(problem):
             resPath.append(theStack.pop())
         return resPath[::-1]
 
-def pathStep(problem,beenThere,path,step,counter):
+def dfsPathStep(problem,beenThere,path,step):
 
     if problem.isGoalState(step[0]):
         path.push(step[1])
@@ -114,7 +114,7 @@ def pathStep(problem,beenThere,path,step,counter):
     newBeenThere.append(step[0])
     nextSteps = problem.getSuccessors(step[0])
     for nextStep in nextSteps:
-        (status,newBeenThere,retPath) = pathStep(problem,newBeenThere,path,nextStep,counter+1)
+        (status,newBeenThere,retPath) = dfsPathStep(problem,newBeenThere,path,nextStep)
         if status == "VICTORY":
             return (status,newBeenThere,retPath)
     path.pop()
@@ -123,9 +123,30 @@ def pathStep(problem,beenThere,path,step,counter):
             
 
 def breadthFirstSearch(problem):
-  "Search the shallowest nodes in the search tree first. [p 81]"
-  "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+    "Search the shallowest nodes in the search tree first. [p 81]"
+    "*** YOUR CODE HERE ***"
+    fringe = util.Queue()
+    start = problem.getStartState()
+    beenThere = [start]
+    
+    fringe.push( (start,[]) )
+    
+    while not fringe.isEmpty():
+        (node,nodePath) = fringe.pop()
+        nextSteps = problem.getSuccessors(node)
+        for step in nextSteps:
+            newPath = list(nodePath)
+            newPath.append(step[1])
+            
+            if problem.isGoalState(step[0]):
+                return newPath
+    
+            if step[0] not in beenThere:
+                beenThere.append(step[0])
+                fringe.push( (step[0],newPath) )
+    return []
+    
+  
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
