@@ -166,8 +166,8 @@ def uniformCostSearch(problem):
           if problem.isGoalState(step[0]):
               return newPath
 
-          if step[0] not in beenThere:
-              beenThere.append(step[0])
+          if step not in beenThere:
+              beenThere.append(step)
               fringe.push( (step[0],newPath,),step[2])
   return []
 
