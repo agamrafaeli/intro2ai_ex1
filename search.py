@@ -126,23 +126,37 @@ def breadthFirstSearch(problem):
     "Search the shallowest nodes in the search tree first. [p 81]"
     fringe = util.Queue()
     start = problem.getStartState()
-    beenThere = [start]
+    beenThere = []
     
-    fringe.push( (start,[]) )
-    
+#     fringe.push( (start,[]) )    
+#     while not fringe.isEmpty():
+#         (node,nodePath) = fringe.pop()
+#         nextSteps = problem.getSuccessors(node)
+#         for step in nextSteps:
+#             newPath = list(nodePath)
+#             newPath.append(step[1])
+#             
+#             if problem.isGoalState(step[0]):
+#                 print newPath
+#                 return newPath
+#     
+#             if step not in beenThere:
+#                 beenThere.append(step)
+#                 fringe.push( (step[0],newPath) )
+
+    fringe.push( (start,[],[False,False,False,False]) )    
     while not fringe.isEmpty():
-        (node,nodePath) = fringe.pop()
-        nextSteps = problem.getSuccessors
+        state = fringe.pop()
+        nextSteps = problem.getSuccessors(state)
         for step in nextSteps:
-            newPath = list(nodePath)
-            newPath.append(step[1])
             
-            if problem.isGoalState(step[0]):
-                return newPath
+            if problem.isGoalState(step):
+                print step[1]
+                return step[1]
     
-            if step[0] not in beenThere:
-                beenThere.append(step[0])
-                fringe.push( (step[0],newPath) )
+            if step not in beenThere:
+                beenThere.append(step)
+                fringe.push( step )
     return []
     
   
@@ -183,7 +197,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     "*** YOUR CODE HERE ***"
     fringe = util.PriorityQueue()
     start = problem.getStartState()
-    beenThere = [start]
+    beenThere = []
     
     fringe.push( (start,[]),heuristic(start,problem) )
     
@@ -197,8 +211,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             if problem.isGoalState(step[0]):
                 return newPath
     
-            if step[0] not in beenThere:
-                beenThere.append(step[0])
+            if step not in beenThere:
+                beenThere.append(step)
                 fringe.push( (step[0],newPath),heuristic(step[0],problem) )
     return []
     

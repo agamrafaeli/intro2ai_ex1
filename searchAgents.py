@@ -270,23 +270,31 @@ class CornersProblem(search.SearchProblem):
     self.walls = startingGameState.getWalls()
     self.startingPosition = startingGameState.getPacmanPosition()
     top, right = self.walls.height-2, self.walls.width-2 
-    self.corners = ((1,1), (1,top), (right, 1), (right, top))
+    self.corners = ((1,top), (right, top), (right, 1), (1,1))
     for corner in self.corners:
       if not startingGameState.hasFood(*corner):
         print 'Warning: no food in corner ' + str(corner)
+    
     self._expanded = 0 # Number of search nodes expanded
     
+    self._beenToCorners = [[(1,top),False],[(right,top),False],[(right,1),False],[(1,1),False]]
     "*** YOUR CODE HERE ***"
     
   def getStartState(self):
     "Returns the start state (in your state space, not the full Pacman state space)"
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    return self.startingPosition
     
   def isGoalState(self, state):
     "Returns whether this search state is a goal state of the problem"
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    
+    for i in xrange(4):
+        if not state[2][i]:
+            return False
+    return True
+        
+    
        
   def getSuccessors(self, state):
     """
@@ -299,7 +307,7 @@ class CornersProblem(search.SearchProblem):
      required to get there, and 'stepCost' is the incremental 
      cost of expanding to that successor
     """
-    
+    stateX, stateY = state[0]
     successors = []
     for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
       # Add a successor state to the successor list if the action is legal
@@ -308,10 +316,26 @@ class CornersProblem(search.SearchProblem):
       #   dx, dy = Actions.directionToVector(action)
       #   nextx, nexty = int(x + dx), int(y + dy)
       #   hitsWall = self.walls[nextx][nexty]
-      
       "*** YOUR CODE HERE ***"
       
+      dX, dY = Actions.directionToVector(action)
+      nextX, nextY = int(stateX + dX), int(stateY + dY)
+      if not self.walls[nextX][nextY]:
+          newCoordinates = (nextX,nextY)
+          newCorners = list(state[2])
+          newPath = list(state[1])
+          newPath.append(action)
+          for i in xrange(4):
+              if newCoordinates == self.corners[i]:
+                  newCorners[i] = True
+          newState = (newCoordinates,newPath,newCorners)
+          successors.append(newState)
+    
     self._expanded += 1
+    
+    if self._expanded % 1000 == 0:
+        print self._expanded
+    
     return successors
 
   def getCostOfActions(self, actions):
