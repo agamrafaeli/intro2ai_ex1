@@ -57,7 +57,6 @@ class SearchProblem:
      """
      util.raiseNotDefined()
            
-
 def tinyMazeSearch(problem):
   """
   Returns a sequence of moves that solves tinyMaze.  For any other
@@ -87,10 +86,13 @@ def depthFirstSearch(problem):
     start = problem.getStartState()
     path = util.Stack()
     beenThere = [start]
+    result = 'BAD'
+    
     for step in problem.getSuccessors(start):
         (result,beenThere,theStack) = pathStep(problem, beenThere, path, step, 0)
         if result == "VICTORY":
             break
+        
     if result == 'BAD':
         return []
     else:
@@ -100,7 +102,7 @@ def depthFirstSearch(problem):
         return resPath[::-1]
 
 def pathStep(problem,beenThere,path,step,counter):
-    print counter
+
     if problem.isGoalState(step[0]):
         path.push(step[1])
         return ('VICTORY',beenThere,path)
