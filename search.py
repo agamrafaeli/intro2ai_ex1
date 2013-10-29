@@ -146,13 +146,8 @@ def breadthFirstSearch(problem):
 
     fringe.push( (start,[],[False,False,False,False]) )    
     while not fringe.isEmpty():
-<<<<<<< HEAD
         state = fringe.pop()
         nextSteps = problem.getSuccessors(state)
-=======
-        (node,nodePath) = fringe.pop()
-        nextSteps = problem.getSuccessors
->>>>>>> cfe9a012c91127664049cd5473dfbabd27f2559e
         for step in nextSteps:
             
             if problem.isGoalState(step):
