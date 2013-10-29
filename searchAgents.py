@@ -327,8 +327,22 @@ class CornersProblem(search.SearchProblem):
       if self.walls[x][y]: return 999999
     return len(actions)
 
-
 def cornersHeuristic(state, problem):
+
+  coordinate = state[0]
+  cornerStatus = state[3]
+  valueArr=[]
+  index = 0
+  for corner in cornerStatus:
+      cornerCoordinate = corner[0];
+      if corner[1]:
+          valueArr[index] = 999999
+          continue
+      valueArr[index] =   abs(coordinate[0]-cornerCoordinate[0] ) + (abs(coordinate[1]-cornerCoordinate[1] ))
+  return (min(valueArr))
+
+
+
   """
   A heuristic for the CornersProblem that you defined.
   
@@ -344,7 +358,7 @@ def cornersHeuristic(state, problem):
   """
   corners = problem.corners # These are the corner coordinates
   walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-  
+
   "*** YOUR CODE HERE ***"
   return 0 # Default to trivial solution
 
