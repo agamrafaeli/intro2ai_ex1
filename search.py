@@ -127,7 +127,7 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     fringe = util.Queue()
     start = problem.getStartState()
-    beenThere = [start]
+    beenThere = []
     
     fringe.push( (start,[]) )
     
@@ -141,8 +141,8 @@ def breadthFirstSearch(problem):
             if problem.isGoalState(step[0]):
                 return newPath
     
-            if step[0] not in beenThere:
-                beenThere.append(step[0])
+            if step not in beenThere:
+                beenThere.append(step)
                 fringe.push( (step[0],newPath) )
     return []
     
@@ -165,7 +165,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     "*** YOUR CODE HERE ***"
     fringe = util.PriorityQueue()
     start = problem.getStartState()
-    beenThere = [start]
+    beenThere = []
     
     fringe.push( (start,[]),heuristic(start,problem) )
     
@@ -179,8 +179,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             if problem.isGoalState(step[0]):
                 return newPath
     
-            if step[0] not in beenThere:
-                beenThere.append(step[0])
+            if step not in beenThere:
+                beenThere.append(step)
                 fringe.push( (step[0],newPath),heuristic(step[0],problem) )
     return []
     
