@@ -124,7 +124,6 @@ def dfsPathStep(problem,beenThere,path,step):
 
 def breadthFirstSearch(problem):
     "Search the shallowest nodes in the search tree first. [p 81]"
-    "*** YOUR CODE HERE ***"
     fringe = util.Queue()
     start = problem.getStartState()
     beenThere = []
@@ -147,8 +146,13 @@ def breadthFirstSearch(problem):
 
     fringe.push( (start,[],[False,False,False,False]) )    
     while not fringe.isEmpty():
+<<<<<<< HEAD
         state = fringe.pop()
         nextSteps = problem.getSuccessors(state)
+=======
+        (node,nodePath) = fringe.pop()
+        nextSteps = problem.getSuccessors
+>>>>>>> cfe9a012c91127664049cd5473dfbabd27f2559e
         for step in nextSteps:
             
             if problem.isGoalState(step):
@@ -164,8 +168,27 @@ def breadthFirstSearch(problem):
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
-  "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+
+  fringe = util.PriorityQueue()
+  start = problem.getStartState()
+  beenThere = [start]
+
+  fringe.push( (start,[]), 0)
+
+  while not fringe.isEmpty():
+      (node,nodePath) = fringe.pop()
+      nextSteps = problem.getSuccessors(node)
+      for step in nextSteps:
+          newPath = list(nodePath)
+          newPath.append(step[1])
+
+          if problem.isGoalState(step[0]):
+              return newPath
+
+          if step not in beenThere:
+              beenThere.append(step)
+              fringe.push( (step[0],newPath,),step[2])
+  return []
 
 def nullHeuristic(state, problem=None):
   """
