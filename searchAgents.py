@@ -373,8 +373,6 @@ def cornersHeuristic(state, problem):
     return sum
 
 
-
-
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
   def __init__(self):
@@ -493,13 +491,6 @@ def numOfNeighborFood(foodX,foodY,foodGrid):
             counter = counter + 1
     return counter;
 
-def distanceFromAllFoods(foodX,foodY,foodGrid):
-    sum = 0
-    for tempX in xrange(foodGrid.width):
-        for tempY in xrange(foodGrid.height):
-            if foodGrid[foodX][foodY]:
-                sum = sum + (abs(tempX - foodX) + abs(tempY - foodY))
-    return sum
  
 class ClosestDotSearchAgent(SearchAgent):
   "Search for all food using a sequence of searches"
@@ -527,6 +518,25 @@ class ClosestDotSearchAgent(SearchAgent):
     problem = AnyFoodSearchProblem(gameState)
 
     "*** YOUR CODE HERE ***"
+    fringe = util.Queue()
+    start = problem.getStartState()
+    beenThere = []
+    
+    fringe.push( (startPosition,[]) )    
+    while not fringe.isEmpty():
+        (node,nodePath) = fringe.pop()
+        nextSteps = problem.getSuccessors(node)
+        for step in nextSteps:
+            newPath = list(nodePath)
+            newPath.append(step[1])
+             
+            if problem.isGoalState(step[0]):
+                return newPath
+     
+            if step not in beenThere:
+                beenThere.append(step)
+                fringe.push( (step[0],newPath) )
+    return []
     util.raiseNotDefined()
   
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -563,6 +573,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
     x,y = state
     
     "*** YOUR CODE HERE ***"
+    return self.food[x][y]
     util.raiseNotDefined()
 
 ##################
