@@ -276,21 +276,19 @@ class CornersProblem(search.SearchProblem):
         print 'Warning: no food in corner ' + str(corner)
     
     self._expanded = 0 # Number of search nodes expanded
-    
-    self._beenToCorners = [[(1,top),False],[(right,top),False],[(right,1),False],[(1,1),False]]
     "*** YOUR CODE HERE ***"
     
   def getStartState(self):
     "Returns the start state (in your state space, not the full Pacman state space)"
     "*** YOUR CODE HERE ***"
-    return self.startingPosition
+    return (self.startingPosition,[False,False,False,False])
     
   def isGoalState(self, state):
     "Returns whether this search state is a goal state of the problem"
     "*** YOUR CODE HERE ***"
     
     for i in xrange(4):
-        if not state[2][i]:
+        if not state[1][i]:
             return False
     return True
         
@@ -322,19 +320,15 @@ class CornersProblem(search.SearchProblem):
       nextX, nextY = int(stateX + dX), int(stateY + dY)
       if not self.walls[nextX][nextY]:
           newCoordinates = (nextX,nextY)
-          newCorners = list(state[2])
-          newPath = list(state[1])
-          newPath.append(action)
+          newCorners = [False,False,False,False]
           for i in xrange(4):
-              if newCoordinates == self.corners[i]:
+              if newCoordinates == self.corners[i] or state[1][i]:
                   newCorners[i] = True
-          newState = (newCoordinates,newPath,newCorners)
-          successors.append(newState)
+          newState = (newCoordinates,newCorners)
+          successor = (newState,action,1)
+          successors.append(successor)
     
     self._expanded += 1
-    
-    if self._expanded % 1000 == 0:
-        print self._expanded
     
     return successors
 
@@ -353,6 +347,7 @@ class CornersProblem(search.SearchProblem):
 
 def cornersHeuristic(state, problem):
 
+<<<<<<< HEAD
 #gets the the data structure of the new State
   currentCoordinateData = state[0]
 
@@ -378,26 +373,38 @@ def cornersHeuristic(state, problem):
 
   return (min(valueArr))
 
-
-
-  """
-  A heuristic for the CornersProblem that you defined.
-  
-    state:   The current search state 
-             (a data structure you chose in your search problem)
+=======
     
-    problem: The CornersProblem instance for this layout.  
-    
-  This function should always return a number that is a lower bound
-  on the shortest path from the state to a goal of the problem; i.e.
-  it should be admissible.  (You need not worry about consistency for
-  this heuristic to receive full credit.)
-  """
-  corners = problem.corners # These are the corner coordinates
-  walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
+>>>>>>> 5967312a02821224769fcf94d6bb45e1c2674b3b
 
-  "*** YOUR CODE HERE ***"
-  return 0 # Default to trivial solution
+    """
+    A heuristic for the CornersProblem that you defined.
+    
+      state:   The current search state 
+               (a data structure you chose in your search problem)
+      
+      problem: The CornersProblem instance for this layout.  
+      
+    This function should always return a number that is a lower bound
+    on the shortest path from the state to a goal of the problem; i.e.
+    it should be admissible.  (You need not worry about consistency for
+    this heuristic to receive full credit.)
+    """
+    corners = problem.corners # These are the corner coordinates
+    walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
+    
+    x,y = state
+    
+    results = [0,0,0,0]
+
+        
+    
+    
+    "*** YOUR CODE HERE ***"
+    return 0 # Default to trivial solution
+
+
+
 
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
