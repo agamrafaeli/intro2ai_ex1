@@ -353,16 +353,29 @@ class CornersProblem(search.SearchProblem):
 
 def cornersHeuristic(state, problem):
 
-  coordinate = state[0]
-  cornerStatus = state[3]
+#gets the the data structure of the new State
+  currentCoordinateData = state[0]
+
+  #gets the status of the corners in this specific coordinate
+  currentCornerStatus = currentCoordinateData[1]
+  #gets the current coordinate
+
+  xCor,yCor = currentCoordinateData[0]
+
   valueArr=[]
   index = 0
-  for corner in cornerStatus:
+  #for each corner in the corner status
+  for corner in currentCornerStatus:
       cornerCoordinate = corner[0];
+
+      #already been to that corner
       if corner[1]:
           valueArr[index] = 999999
           continue
-      valueArr[index] =   abs(coordinate[0]-cornerCoordinate[0] ) + (abs(coordinate[1]-cornerCoordinate[1] ))
+        #haven't been there so we need to calculate the manhattan distance from it
+      valueArr[index] =   abs(xCor - cornerCoordinate[0] ) + (abs(yCor - cornerCoordinate[1] ))
+      index = index + 1
+
   return (min(valueArr))
 
 
