@@ -346,62 +346,31 @@ class CornersProblem(search.SearchProblem):
     return len(actions)
 
 def cornersHeuristic(state, problem):
-
-<<<<<<< HEAD
-#gets the the data structure of the new State
-  currentCoordinateData = state[0]
-
-  #gets the status of the corners in this specific coordinate
-  currentCornerStatus = currentCoordinateData[1]
-  #gets the current coordinate
-
-  xCor,yCor = currentCoordinateData[0]
-
-  valueArr=[]
-  index = 0
-  #for each corner in the corner status
-  for corner in currentCornerStatus:
-      cornerCoordinate = corner[0];
-
-      #already been to that corner
-      if corner[1]:
-          valueArr[index] = 999999
-          continue
+    #gets the the data structure of the new State
+    currentCoordinateData = state[0]
+    
+    #gets the status of they corners in this specific coordinate
+    currentCornerStatus = state[1]
+    #gets the current coordinate
+    
+    xCor,yCor = currentCoordinateData
+    sum = 0
+    index = 0
+    #for each corner in the corner status
+    for corner in problem.corners:
+    
+        #already been to that corner
+        if state[1][index]:
+            continue
         #haven't been there so we need to calculate the manhattan distance from it
-      valueArr[index] =   abs(xCor - cornerCoordinate[0] ) + (abs(yCor - cornerCoordinate[1] ))
-      index = index + 1
-
-  return (min(valueArr))
-
-=======
-    
->>>>>>> 5967312a02821224769fcf94d6bb45e1c2674b3b
-
-    """
-    A heuristic for the CornersProblem that you defined.
-    
-      state:   The current search state 
-               (a data structure you chose in your search problem)
-      
-      problem: The CornersProblem instance for this layout.  
-      
-    This function should always return a number that is a lower bound
-    on the shortest path from the state to a goal of the problem; i.e.
-    it should be admissible.  (You need not worry about consistency for
-    this heuristic to receive full credit.)
-    """
-    corners = problem.corners # These are the corner coordinates
-    walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-    
-    x,y = state
-    
-    results = [0,0,0,0]
-
         
-    
-    
-    "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+        sum =   sum + abs(xCor - corner[0] ) + (abs(yCor - corner[1] ))
+        index = index + 1
+    wallIncrementor = 0.2*(problem.walls.height + problem.walls.width)
+    for (x,y) in [(1,0),(-1,0),(0,1),(0,-1)]:
+        if not problem.walls[currentCoordinateData[0]+x][currentCoordinateData[1]+y]:
+            sum = sum + wallIncrementor
+    return sum
 
 
 
