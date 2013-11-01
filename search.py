@@ -127,37 +127,19 @@ def breadthFirstSearch(problem):
     fringe = util.Queue()
     start = problem.getStartState()
     beenThere = []
-    
-#     fringe.push( (start,[]) )    
-#     while not fringe.isEmpty():
-#         (node,nodePath) = fringe.pop()
-#         nextSteps = problem.getSuccessors(node)
-#         for step in nextSteps:
-#             newPath = list(nodePath)
-#             newPath.append(step[1])
-#             
-#             if problem.isGoalState(step[0]):
-#                 print newPath
-#                 return newPath
-#     
-#             if step not in beenThere:
-#                 beenThere.append(step)
-#                 fringe.push( (step[0],newPath) )
-
-    fringe.push( (start,[],[False,False,False,False]) )    
+    fringe.push( (start,[]) )    
     while not fringe.isEmpty():
-        state = fringe.pop()
-        nextSteps = problem.getSuccessors(state)
+        (node,nodePath) = fringe.pop()
+        nextSteps = problem.getSuccessors(node)
         for step in nextSteps:
-            
-            if problem.isGoalState(step):
-                print step[1]
-                return step[1]
-    
+            newPath = list(nodePath)
+            newPath.append(step[1])
+             
+            if problem.isGoalState(step[0]):
+                return newPath
             if step not in beenThere:
                 beenThere.append(step)
-                fringe.push( step )
-    return []
+                fringe.push( (step[0],newPath) )
     
   
       
